@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('project_title');
+            $table->string('number_of_groups');
+            $table->string('student_per_group');
             $table->timestamps();
         });
     }

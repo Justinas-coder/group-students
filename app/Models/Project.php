@@ -12,8 +12,7 @@ class Project extends Model
     protected $fillable = [
         'project_title',
         'number_of_groups',
-        'student_per_group',
-        'number_of_groups'
+        'student_per_group'
     ];
 
     public function user()
@@ -24,5 +23,10 @@ class Project extends Model
     public function group()
     {
         return $this->hasMany(Group::class);
+    }
+
+    public function student()
+    {
+        return $this->hasMany(Student::class);
     }
 }
