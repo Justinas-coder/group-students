@@ -18,6 +18,19 @@
                 </div>
             </div>
         </div>
+        <div style="margin-top:30px"></div>
+        <div class="col-md-8">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link btn btn-outline-secondary" href="{{route('project.create')}}">Create
+                        Project</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-secondary" href="{{route('project.index')}}">View
+                        Projects</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 @endsection
