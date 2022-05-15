@@ -23,3 +23,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/project/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('project.create');
 Route::get('/project/index', [\App\Http\Controllers\ProjectController::class, 'index'])->name('project.index');
 Route::post('/project/store', [\App\Http\Controllers\ProjectController::class, 'store'])->name('project.store');
+Route::post('/student/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
+Route::delete('/student/destroy', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
+
+

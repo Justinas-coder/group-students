@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+
 use Illuminate\Http\Request;
+use App\Models\Student;
 
 class ProjectController extends Controller
 {
@@ -12,9 +14,14 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $project_title = Project::all();
+
+
+        return view('admin.index', [
+            'project_title' => $project_title,
+        ]);
     }
 
     /**
@@ -36,7 +43,20 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $students = Student::all();
+
+        $inputs = $request->validate([
+            'project_title' => 'required|min:8|max:255',
+            'number_of_groups' => 'required|numeric',
+            'student_per_group' => 'required|numeric',
+        ]);
+
+        $project = auth()->user()->project()->create($inputs);
+        $queried_project = auth()->user()->project()->where('id', $project->id)->get()->all();
+        session()->flash('project-created-message', 'Project was Created');
+        return  view('admin.index', ['queried_project' => $queried_project, 'students' => $students]);
+
+
     }
 
     /**
