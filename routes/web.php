@@ -21,9 +21,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/project/create', [\App\Http\Controllers\ProjectController::class, 'create'])->name('project.create');
-Route::get('/project/index', [\App\Http\Controllers\ProjectController::class, 'index'])->name('project.index');
+Route::get('/project/{project}/index', [\App\Http\Controllers\ProjectController::class, 'index'])->name('project.index');
+Route::get('/project/list', [\App\Http\Controllers\ProjectController::class, 'show'])->name('project.list');
+
 Route::post('/project/store', [\App\Http\Controllers\ProjectController::class, 'store'])->name('project.store');
+Route::put('/project/{project}/update', [\App\Http\Controllers\ProjectController::class, 'update'])->name('project.update');
+Route::delete('/project/{project}/destroy', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('project.destroy');
+
 Route::post('/student/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
-Route::delete('/student/destroy', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
+Route::post('/student/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
+Route::delete('/student/{student}/destroy', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
+
+
 
 

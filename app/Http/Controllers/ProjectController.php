@@ -6,6 +6,8 @@ use App\Models\Project;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ProjectController extends Controller
 {
@@ -14,13 +16,16 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Project $project)
     {
-        $project_title = Project::all();
+        $projects = Project::all()->where('user_id', Auth::user()->id)->where('id', $project->id);
+
+        $students = Student::all()->where('user_id', Auth::user()->id);
 
 
         return view('admin.index', [
-            'project_title' => $project_title,
+            'projects' => $projects,
+            'students' => $students,
         ]);
     }
 
@@ -43,8 +48,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $students = Student::all();
-
         $inputs = $request->validate([
             'project_title' => 'required|min:8|max:255',
             'number_of_groups' => 'required|numeric',
@@ -52,10 +55,8 @@ class ProjectController extends Controller
         ]);
 
         $project = auth()->user()->project()->create($inputs);
-        $queried_project = auth()->user()->project()->where('id', $project->id)->get()->all();
         session()->flash('project-created-message', 'Project was Created');
-        return  view('admin.index', ['queried_project' => $queried_project, 'students' => $students]);
-
+        return redirect()->route('project.index', ['project' => $project]);
 
     }
 
@@ -67,7 +68,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $projects = Project::all()->where('user_id', Auth::user()->id);
+
+        return view('admin.projects_list', ['projects' => $projects]);
     }
 
     /**
@@ -90,7 +93,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        return $project->id;
     }
 
     /**
@@ -101,6 +104,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        Session::flash('message', 'Project was deleted');
+        return back();
     }
 }

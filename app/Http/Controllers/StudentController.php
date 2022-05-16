@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use MongoDB\Driver\Session;
 
 class StudentController extends Controller
 {
@@ -24,18 +27,25 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.student.create');
+        return view('admin.student_create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->validate([
+            'name' => 'required|min:8|max:255:'
+        ]);
+
+        auth()->user()->student()->create($inputs);        
+        session()->flash('student-created-message', 'Student was Created');
+        return redirect()->route('project.index', ['project' => $project]);
+
     }
 
     /**
@@ -80,6 +90,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        $student->delete();
+
+        return back();
     }
 }

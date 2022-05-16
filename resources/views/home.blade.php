@@ -26,7 +26,7 @@
                         Project</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-secondary" href="{{route('project.index')}}">View
+                    <a class="nav-link btn btn-outline-secondary" href="{{route('project.list')}}">View
                         Projects</a>
                 </li>
             </ul>
