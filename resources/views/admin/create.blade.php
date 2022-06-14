@@ -10,7 +10,7 @@
             @csrf
             <div class="form-group mb-3">
                 <label for="project_title">Project Title</label>
-                <input type="text" name="project_title" class="form-control" id="project_title" aria-describeby="" placeholder="">
+                <input type="text" name="project_title" class="form-control" id="project_title" aria-describeby="" placeholder="" autofocus="autofocus">
             </div>
             <div class="form-group mb-3">
                 <label for="number_of_groups">Number Of Groups</label>

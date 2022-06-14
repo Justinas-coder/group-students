@@ -5,11 +5,12 @@
 
         <div class="col-md-4">
 
-            <form action="{{route('student.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('student.store', $project)}}" method="post">
                 @csrf
                 <div class="form-group mb-3">
                     <label for="name">Name</label>
-                    <input type="text" name="name" class="form-control" id="name" aria-describeby="" placeholder="">
+                    <input type="text" name="name" class="form-control" id="name" aria-describeby="" placeholder="" autofocus="autofocus">
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>

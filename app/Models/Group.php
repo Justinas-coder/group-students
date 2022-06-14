@@ -10,8 +10,7 @@ class Group extends Model
     use HasFactory;
 
     protected $fillable = [
-        'group_title',
-        'student_id'
+        'project_id'
     ];
 
     public function project()
@@ -19,7 +18,7 @@ class Group extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function student()
+    public function students()
     {
         return $this->hasMany(Student::class);
     }

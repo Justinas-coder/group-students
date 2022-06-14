@@ -25,7 +25,6 @@
                     <thead>
                     <tr>
                         <th >Project</th>
-                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                     </thead>
@@ -35,13 +34,13 @@
                             <td>
                                 <a href="{{route('project.index', ['project'=>$project->id])}}">{{$project->project_title}}</a>
                             </td>
-                            <td>
-                                <form method="put" action="{{route('project.update', $project->id)}}"
-                                      enctype="multipart/form-data">
-                                    @method('PUT')
-                                    <button class="btn btn-primary">Edit</button>
-                                </form>
-                            </td>
+{{--                            <td>--}}
+{{--                                <form method="put" action="{{route('project.update', $project->id)}}"--}}
+{{--                                      enctype="multipart/form-data">--}}
+{{--                                    @method('PUT')--}}
+{{--                                    <button class="btn btn-primary">Edit</button>--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
                             <td>
                                 <form method="post" action="{{route('project.destroy', $project->id)}}"
                                       enctype="multipart/form-data">

@@ -6,6 +6,8 @@ use App\Models\Project;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\Group;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -18,14 +20,17 @@ class ProjectController extends Controller
      */
     public function index(Request $request, Project $project)
     {
-        $projects = Project::all()->where('user_id', Auth::user()->id)->where('id', $project->id);
 
-        $students = Student::all()->where('user_id', Auth::user()->id);
+        $students = Student::all()->where('project_id', $project->id);
+
+        $groups = Group::all()->where('project_id', $project->id);
+
 
 
         return view('admin.index', [
-            'projects' => $projects,
+            'project' => $project,
             'students' => $students,
+            'groups' => $groups,
         ]);
     }
 
@@ -55,6 +60,13 @@ class ProjectController extends Controller
         ]);
 
         $project = auth()->user()->project()->create($inputs);
+
+
+
+        for ($group = 1; $group<=$project['number_of_groups']; $group++){
+           Group::create(['project_id'=> $project->id]);
+        }
+
         session()->flash('project-created-message', 'Project was Created');
         return redirect()->route('project.index', ['project' => $project]);
 

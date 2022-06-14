@@ -20,12 +20,12 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function group()
+    public function groups()
     {
         return $this->hasMany(Group::class);
     }
 
-    public function student()
+    public function students()
     {
         return $this->hasMany(Student::class);
     }

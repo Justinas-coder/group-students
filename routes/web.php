@@ -25,12 +25,17 @@ Route::get('/project/{project}/index', [\App\Http\Controllers\ProjectController:
 Route::get('/project/list', [\App\Http\Controllers\ProjectController::class, 'show'])->name('project.list');
 
 Route::post('/project/store', [\App\Http\Controllers\ProjectController::class, 'store'])->name('project.store');
-Route::put('/project/{project}/update', [\App\Http\Controllers\ProjectController::class, 'update'])->name('project.update');
+Route::get('/project/{project}/update', [\App\Http\Controllers\ProjectController::class, 'update'])->name('project.update');
 Route::delete('/project/{project}/destroy', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('project.destroy');
 
-Route::post('/student/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
-Route::post('/student/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
+Route::get('/project/{project}/student/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
+Route::post('/project/{project}/student/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
 Route::delete('/student/{student}/destroy', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
+Route::put('/student/update/{group}', [\App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
+
+
+Route::post('/groups/students/store', [\App\Http\Controllers\GroupController::class, 'store'])->name('groups.store');
+
 
 
 

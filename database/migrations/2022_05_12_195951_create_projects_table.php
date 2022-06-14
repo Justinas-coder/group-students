@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->integer('user_id');
             $table->string('project_title');
-            $table->string('number_of_groups');
-            $table->string('student_per_group');
+            $table->integer('number_of_groups');
+            $table->integer('student_per_group');
             $table->timestamps();
         });
     }
