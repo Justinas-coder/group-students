@@ -35,7 +35,7 @@ class GroupController extends Controller
      */
     public function store(Request  $request)
     {
-       
+
 
     }
 
@@ -61,17 +61,7 @@ class GroupController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Group $group)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.

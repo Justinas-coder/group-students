@@ -25,12 +25,12 @@
 
         </div>
 
-        <div>
+        <div >
             <table class="table table-bordered " id="dataTable">
                 <thead>
                 <tr>
                     <th >Student</th>
-                    <th>Group</th>
+                    <th>Group #</th>
                     <th class="text-end">Actions</th>
                 </tr>
                 </thead>
@@ -56,7 +56,6 @@
 
                 <a class="me-2 mb-2 btn btn-primary" href="{{route('student.create', $project->id)}}">New Student</a>
 
-
             </td>
         </div>
     </div>
@@ -65,20 +64,31 @@
         <div class="row">
             @foreach($project->groups as $group)
                 <div class="col-md-3">
-                    <table class="table table-bordered" id="dataTable">
+                    <table class="table table-bordered
+                    @if($project['student_per_group'] - $group->students->count() === 0)
+                        border-success
+                    @endif" id="dataTable">
                         <thead>
                         <tr>
-                            <th>Group # {{$group->id}}</th>
+                            <th>
+                                Group # {{$group->id}}
+
+                                @if($project['student_per_group'] - $group->students->count() === 0)
+                                    <span class="badge rounded-pill bg-success">Group is full</span>
+                                @endif
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>
                                 @foreach($group->students as $assigned_student)
-                                    <form action="">
-                                        <select name="" id="">
+                                    <form method="POST" action="{{route('student.unassign', ['student'=>$assigned_student->id] )}}">
+                                        @csrf
+                                        @method('PUT')
+                                        <select class="form-select mb-2" name="student_id" onchange="this.form.submit()">
                                             <option value="" selected disabled>{{ $assigned_student->name }}</option>
-                                            <option value="{{ $student->id }}">Remove from group</option>
+                                            <option value="{{ $assigned_student->id }}">Remove from group</option>
                                         </select>
                                     </form>
                                 @endforeach
@@ -91,12 +101,8 @@
 
                                             <select class="form-select" id="student_id" name="student_id" onchange="this.form.submit()">
                                                 <option value="" disabled selected>Assign student</option>
-                                                @foreach ($students as $student)
-                                                    @if(!$student->group()->exists())
-                                                        <option value="{{$student->id}}">{{$student->name}}</option>
-                                                    @elseif($student->group_id == $group->id)
-                                                        <option value="{{$student->id}}" selected>{{$student->name}}</option>
-                                                    @endif
+                                                @foreach ($students->where('group_id','=',NULL) as $student)
+                                                    <option value="{{$student->id}}">{{$student->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

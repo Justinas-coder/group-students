@@ -32,6 +32,8 @@ Route::get('/project/{project}/student/create', [\App\Http\Controllers\StudentCo
 Route::post('/project/{project}/student/store', [\App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
 Route::delete('/student/{student}/destroy', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('student.destroy');
 Route::put('/student/update/{group}', [\App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
+Route::put('/student/{student}', [\App\Http\Controllers\StudentController::class, 'unassign'])->name('student.unassign');
+
 
 
 Route::post('/groups/students/store', [\App\Http\Controllers\GroupController::class, 'store'])->name('groups.store');

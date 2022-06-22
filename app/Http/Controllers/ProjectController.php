@@ -15,22 +15,17 @@ class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Project  $project
      */
-    public function index(Request $request, Project $project)
+    public function index(Project $project)
     {
-
         $students = Student::all()->where('project_id', $project->id);
-
         $groups = Group::all()->where('project_id', $project->id);
-
-
 
         return view('admin.index', [
             'project' => $project,
             'students' => $students,
-            'groups' => $groups,
+            'groups' => $groups
         ]);
     }
 
@@ -61,8 +56,6 @@ class ProjectController extends Controller
 
         $project = auth()->user()->project()->create($inputs);
 
-
-
         for ($group = 1; $group<=$project['number_of_groups']; $group++){
            Group::create(['project_id'=> $project->id]);
         }
@@ -83,29 +76,6 @@ class ProjectController extends Controller
         $projects = Project::all()->where('user_id', Auth::user()->id);
 
         return view('admin.projects_list', ['projects' => $projects]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Project $project)
-    {
-        return $project->id;
     }
 
     /**
