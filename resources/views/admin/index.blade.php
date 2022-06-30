@@ -14,6 +14,7 @@
         <div class="alert alert-success">{{Session::get('project-created-message')}}</div>
     @endif
 
+
     <div class="container">
         <div class="mb-3">
             <h2>Project status page</h2>

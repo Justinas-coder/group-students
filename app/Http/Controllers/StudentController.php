@@ -31,9 +31,13 @@ class StudentController extends Controller
      */
     public function store(Request $request, $project)
     {
-        $request->validate([
-            'name' => 'required|min:8|max:255'
+
+            $request->validate([
+               'name' => 'required|min:8|max:255|unique:App\Models\Student,name'
+
+
         ]);
+
 
         Student::create(['name' => $request->name, 'project_id' => $project]);
         session()->flash('student-created-message', 'Student was Created');
