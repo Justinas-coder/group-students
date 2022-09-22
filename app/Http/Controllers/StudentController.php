@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentValidationRequest;
 use App\Models\Student;
 use App\Models\Project;
 
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 
 
@@ -26,20 +28,17 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\\StudentValidationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $project)
+    public function store(StudentValidationRequest $request, StudentService $service, $project)
     {
 
-            $request->validate([
-               'name' => 'required|min:8|max:255|unique:App\Models\Student,name'
+        $service->storeNewStudent(
+            $request->name,
+            (int) $project
+        );
 
-
-        ]);
-
-
-        Student::create(['name' => $request->name, 'project_id' => $project]);
         session()->flash('student-created-message', 'Student was Created');
         return redirect()->route('project.index', ['project' => $project]);
 

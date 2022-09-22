@@ -11,7 +11,7 @@
 - Docker
 - Laravel 9x
 - Bootstrap
-- Postman
+- PHP 8
 
 ### How to launch it:
 
@@ -21,35 +21,39 @@
 ```
    git clone https://github.com/Justinas-coder/group-students
 ```
-3. Create .env file
+3. Install PHP dependencies (reference: https://laravel.com/docs/9.x/sail#installing-composer-dependencies-for-existing-projects)
+```
+docker run --rm \
+-u "$(id -u):$(id -g)" \
+-v $(pwd):/var/www/html \
+-w /var/www/html \
+laravelsail/php81-composer:latest \
+composer install --ignore-platform-reqs
+```
+4. Create .env file
+
 ```
    cp .env.example .env
 ```
-4. Install PHP dependencies (reference: https://laravel.com/docs/9.x/sail#installing-composer-dependencies-for-existing-projects)
-```
-    docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v $(pwd):/var/www/html \
-    -w /var/www/html \
-    laravelsail/php81-composer:latest \
-    composer install --ignore-platform-reqs
-```
 5. Start containers
+
 ```
-    ./vendor/bin/sail up -d
+./vendor/bin/sail up -d
 ```
 6. Generate app encryption key
+
 ```
 ./vendor/bin/sail artisan key:generate
 ```
-7. Make migrations using CML command
+7. Make migrations using CML command as bellow:
+
 ```
 ./vendor/bin/sail artisan migrate
 ```
 
-8. Go to http://localhost/login  and enjoy it :)
+8. Go to http://localhost/login  fill registration form and try it.
 
-#### Dropdown list development in progress....
+#### End
 
 
 

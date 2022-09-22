@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectValidationRequest;
 use App\Models\Project;
-
-use Illuminate\Http\Request;
-use App\Models\Student;
-use App\Models\Group;
-
-use Illuminate\Support\Facades\Auth;
+use App\Services\ProjectService;
 use Illuminate\Support\Facades\Session;
 
 class ProjectController extends Controller
@@ -17,10 +13,10 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Project  $project
      */
-    public function index(Project $project)
+    public function index(ProjectService $service, Project $project)
     {
-        $students = Student::all()->where('project_id', $project->id);
-        $groups = Group::all()->where('project_id', $project->id);
+        $students = $service->showAllProjectStudents($project);
+        $groups = $service->showAllProjectGroups($project);
 
         return view('admin.index', [
             'project' => $project,
@@ -32,48 +28,42 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
         return view('admin.create');
-
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(ProjectValidationRequest $request, ProjectService $service)
     {
-        $inputs = $request->validate([
-            'project_title' => 'required|min:8|max:255',
-            'number_of_groups' => 'required|numeric',
-            'student_per_group' => 'required|numeric',
-        ]);
+        $service->storeNewProject(
+            auth()->user()->id,
+            $request->project_title,
+            $request->number_of_groups,
+            $request->student_per_group
+        );
 
-        $project = auth()->user()->project()->create($inputs);
-
-        for ($group = 1; $group<=$project['number_of_groups']; $group++){
-           Group::create(['project_id'=> $project->id]);
-        }
-
+        $project = $service->storeProjectGroups(Project::all());
         session()->flash('project-created-message', 'Project was Created');
         return redirect()->route('project.index', ['project' => $project]);
-
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(Project $project)
+    public function show(ProjectService $service)
     {
-        $projects = Project::all()->where('user_id', Auth::user()->id);
+        $projects = $service->showAllUserProjects(Project::all());
 
         return view('admin.projects_list', ['projects' => $projects]);
     }
@@ -82,7 +72,7 @@ class ProjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Project $project)
     {
